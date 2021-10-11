@@ -6,13 +6,13 @@
 .LCPrompt:
 	.string	"Input two numbers:";
 .LCScanf:
-	.string	"%lld %lld";
+	.string	"%llf %llf";
 .LCL:
-	.string	"Less\n";
+	.string	"%llf is less than %llf\n";
 .LCE:
-	.string	"Equal\n";
+	.string	"%llf is equal to %llf\n";
 .LCG:
-	.string	"Greater\n";
+	.string	"%llf is greater than %llf\n";
 	.text
 	.align	2
 	.global	main
@@ -36,10 +36,11 @@ main:
     bl scanf
     
 #compare
-    ldr x0, [sp]
-    ldr x1, [sp, 8]
+    ldr d0, [sp]
+    ldr d1, [sp, 8]
 	bl compare
 
+epilogue:
 	ldp	x29, x30, [sp, 48]
     add sp, sp, 64
 	ret
@@ -50,26 +51,27 @@ compare:
 	sub sp, sp, 32
 	stp x29, x30, [sp, 16]
 	add x29, sp, 16
-    cmp x0, x1
+    fcmp d0, d1
     b.ne .L2
 	adrp	x0, .LCE
 	add	x0, x0, :lo12:.LCE
-    bl puts
 	b .L4
 .L2:
-    cmp x0, x1
+    fcmp d0, d1
     b.lt .L3
 
 	adrp	x0, .LCG
 	add	x0, x0, :lo12:.LCG
-    bl puts
 	b .L4
 .L3:
 	adrp	x0, .LCL
 	add	x0, x0, :lo12:.LCL
-    bl puts
 	b .L4
 .L4:
+	fmov x1, d0
+	fmov x2, d1
+	fmov d2, d1
+    bl printf
 	ldp x29, x30, [sp, 16]
 	add sp, sp, 32
 	ret

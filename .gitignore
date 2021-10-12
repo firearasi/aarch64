@@ -1,3 +1,4 @@
+*.core
 .ccls-cache/
 cscope.*
 *.o
@@ -14,3 +15,7 @@ point
 compare_fpu
 hamming
 constant
+function_pointer
+factorial
+el0
+neon

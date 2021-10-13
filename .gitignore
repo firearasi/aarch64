@@ -19,3 +19,6 @@ function_pointer
 factorial
 el0
 neon
+add_neon
+hamming_func
+sqrt_approx
